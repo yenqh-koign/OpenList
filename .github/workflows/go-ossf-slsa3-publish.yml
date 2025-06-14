@@ -1,0 +1,24 @@
+name: Go Build for Windows
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        version: '1.16'
+    - name: Get dependencies
+      run: go get -d -v ./...
+    - name: Build for Windows
+      run: go build -o openlist.exe .
+    - name: Test
+      run: go test -v ./...
